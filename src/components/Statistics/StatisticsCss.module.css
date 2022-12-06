@@ -1,0 +1,42 @@
+.statisticsSection {
+    background-color: antiquewhite;
+    width: 500px;
+    border-radius: 20px;
+    margin-top: 40px;
+}
+
+.title {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.statList {
+    list-style: none;
+    padding: 0;
+}
+
+.itemGood {
+    color: rgb(104, 159, 23);
+}
+
+.itemNeutral {
+    color: rgb(163, 118, 58);
+}
+
+.itemBad {
+    color: darkred;
+}
+
+.statItemTotal {
+    font-weight: bold;
+    color: rgb(83, 23, 181);
+    /* text-shadow: 0 0 20px rgb(25, 17, 101); */
+
+}
+
+.statItemPositive {
+    font-weight: bold;
+    color: rgb(105, 148, 40);
+    /* text-shadow: 0 0 20px rgb(63, 86, 29); */
+}
