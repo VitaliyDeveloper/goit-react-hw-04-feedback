@@ -1,79 +1,83 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Notification from './Notification/Notification';
 import Statistics from './Statistics/Statistics';
 
-class App extends Component {
-  // static defaultProps = {
-  //   initialValue: 0,
-  // };
+export default function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const handleClickBtn = event => {
+    switch (event) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        return;
+    }
+    // console.log(event);
   };
 
-  handleClickBtn = option => {
-    this.setState(prevState => ({ [option]: prevState[option] + 1 }));
-  };
-
-  countTotalFeedback = () => {
-    let total = this.state.good + this.state.neutral + this.state.bad;
+  const countTotalFeedback = () => {
+    let total = good + neutral + bad;
     // console.log(total);
     return total;
   };
 
-  countPositiveFeedbackPercentage = () => {
-    const total = this.countTotalFeedback();
-    const goodFeedback = this.state.good;
+  const countPositiveFeedbackPercentage = () => {
+    const total = countTotalFeedback();
+    const goodFeedback = good;
 
     const result = Math.round((goodFeedback / total) * 100);
 
     return Number(result);
   };
 
-  render() {
-    const options = Object.keys(this.state);
-    const { good, bad, neutral } = this.state;
-
-    return (
-      <div
-        style={{
-          height: '100vh',
-          width: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 40,
-          color: '#010101',
-          backgroundColor: 'black',
-        }}
-      >
-        <Section title="Please leve feedback">
-          <FeedbackOptions
-            options={options}
-            onLeaveFeedback={this.handleClickBtn}
+  return (
+    <div
+      style={{
+        height: '100vh',
+        width: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 40,
+        color: '#010101',
+        backgroundColor: 'rgb(0, 0, 0)',
+        margin: 'auto',
+      }}
+    >
+      <Section title="Please leave feedback">
+        <FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          onLeaveFeedback={handleClickBtn}
+        />
+      </Section>
+      <Section title="Statistics">
+        {countTotalFeedback() > 0 ? (
+          <Statistics
+            good={good}
+            bad={bad}
+            neutral={neutral}
+            total={countTotalFeedback()}
+            positivePercentage={countPositiveFeedbackPercentage()}
           />
-        </Section>
-        <Section title="Statistics">
-          {this.countTotalFeedback() > 0 ? (
-            <Statistics
-              good={good}
-              bad={bad}
-              neutral={neutral}
-              total={this.countTotalFeedback()}
-              positivePercentage={this.countPositiveFeedbackPercentage()}
-            />
-          ) : (
-            <Notification message="There is no feedback" />
-          )}
-        </Section>
-      </div>
-    );
-  }
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
+      </Section>
+    </div>
+  );
 }
-
-export default App;
